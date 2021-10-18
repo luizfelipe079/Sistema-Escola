@@ -1,5 +1,6 @@
 package br.com.luxfacta.sistema.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,8 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "aluno")
-public class Aluno {
+public class Aluno implements Serializable{
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
