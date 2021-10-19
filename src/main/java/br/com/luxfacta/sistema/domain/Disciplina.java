@@ -14,9 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "disciplina")
 public class Disciplina implements Serializable{
@@ -33,10 +37,6 @@ public class Disciplina implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "aluno_id")
 	private Aluno aluno;
-	
-	@ManyToOne
-	@JoinColumn(name = "professor_id")
-	private Professor professor;
 	
 	@OneToMany(mappedBy = "disciplina")
 	private List<Nota> notas = new ArrayList<>();

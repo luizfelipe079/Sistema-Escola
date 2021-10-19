@@ -1,22 +1,23 @@
 package br.com.luxfacta.sistema.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "professor")
 public class Professor implements Serializable{
@@ -25,7 +26,7 @@ public class Professor implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private String id;
+	private Integer id;
 	
 	@Column(name = "nome")
 	private String nome;
@@ -37,6 +38,4 @@ public class Professor implements Serializable{
 	@JsonIgnore
 	private String senha;
 	
-	@OneToMany(mappedBy = "professor")
-	private List<Disciplina> disciplinas = new ArrayList<>();
 }
