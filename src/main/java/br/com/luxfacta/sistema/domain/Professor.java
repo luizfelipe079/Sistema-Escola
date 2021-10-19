@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,7 +33,12 @@ public class Professor implements Serializable{
 	private String email;
 	
 	@Column(name = "senha")
-	@JsonIgnore
 	private String senha;
+	
+	public Professor(Integer id, String nome, String email) {
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+	}
 	
 }
