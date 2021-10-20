@@ -77,7 +77,14 @@ public class AlunoController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Integer id){
-		alunoService.delete(id);;
+		alunoService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping("/{id_aluno}/adicionar/{id_disciplina}")
+	public ResponseEntity<Void> addDisciplina(@PathVariable Integer id_aluno,
+										 @PathVariable Integer id_disciplina){
+		alunoService.addDisciplina(id_aluno, id_disciplina);	
+		return ResponseEntity.ok(null);
 	}
 }

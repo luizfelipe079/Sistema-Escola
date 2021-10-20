@@ -71,4 +71,5 @@ public class DisciplinaController {
 		disciplinaService.delete(id);;
 		return ResponseEntity.noContent().build();
 	}
+	
 }

@@ -7,6 +7,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.luxfacta.sistema.domain.Aluno;
+import br.com.luxfacta.sistema.domain.Disciplina;
 import br.com.luxfacta.sistema.dto.AlunoDTO;
 import br.com.luxfacta.sistema.dto.AlunoNewDTO;
 import br.com.luxfacta.sistema.exception.DataIntegrityException;
@@ -18,6 +19,9 @@ public class AlunoService {
 
 	@Autowired
 	private AlunoRepository alunoRepository;
+	
+	@Autowired
+	private DisciplinaService disciplinaService;
 	
 	public Aluno find(Integer id) {
 		Aluno aluno = alunoRepository.findById(id)
@@ -46,11 +50,14 @@ public class AlunoService {
 		}
 	}
 	
+	public Aluno update(Aluno obj) {
+		Aluno newAluno = find(obj.getId());
+		updateData(newAluno, obj);
+		return alunoRepository.save(newAluno);
+	}
+	
 	public Aluno updateSomeParams(Aluno obj) {
-		Aluno newObj = alunoRepository.findById(obj.getId()).orElseThrow(
-												() -> new ObjectNotFoundException(
-														"Objeto não encontrado! Id:" + obj.getId() + ", Tipo: " + 
-														 Aluno.class.getName()));
+		Aluno newObj = find(obj.getId());
 		updateDataSomeParams(newObj, obj);
 		return alunoRepository.save(newObj);
 	}
@@ -69,6 +76,10 @@ public class AlunoService {
 						 objDto.getEmail());
 	}
 	
+	public void updateData(Aluno newAluno, Aluno aluno) {
+		newAluno.setDisciplinas(aluno.getDisciplinas());
+	}
+	
 	public void updateDataSomeParams(Aluno newObj, Aluno obj) {
 		if(obj.getNome() != null) {
 			newObj.setNome(obj.getNome());
@@ -79,5 +90,12 @@ public class AlunoService {
 		if(obj.getSenha() != null) {
 			newObj.setSenha(obj.getSenha());
 		}
+	}
+	
+	public Aluno addDisciplina(Integer id_aluno, Integer id_disciplina) {
+		Aluno obj = find(id_aluno);
+		Disciplina disciplina = disciplinaService.find(id_disciplina);
+		obj.getDisciplinas().add(disciplina);
+		return updateSomeParams(obj);
 	}
 }

@@ -73,5 +73,4 @@ public class DisciplinaService {
 			newObj.setNome(obj.getNome());
 		}
 	}
-
 }
