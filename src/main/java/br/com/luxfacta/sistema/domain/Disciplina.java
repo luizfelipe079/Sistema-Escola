@@ -9,9 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -34,10 +32,12 @@ public class Disciplina implements Serializable{
 	@Column(name = "nome")
 	private String nome;
 	
-	@ManyToOne
-	@JoinColumn(name = "aluno_id")
-	private Aluno aluno;
+	@ManyToMany(mappedBy = "disciplinas")
+	private List<Aluno> alunos = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "disciplina")
-	private List<Nota> notas = new ArrayList<>();
+	public Disciplina(Integer id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
 }
+

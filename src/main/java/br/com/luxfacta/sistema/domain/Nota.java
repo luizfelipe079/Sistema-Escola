@@ -27,6 +27,12 @@ public class Nota implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
+
+	@Column(name = "nota1")
+	private Double nota1;
+	
+	@Column(name = "nota2")
+	private Double nota2;
 	
 	@ManyToOne
 	@JoinColumn(name = "aluno_id")
@@ -35,10 +41,9 @@ public class Nota implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "disciplina_id")
 	private Disciplina disciplina;
-
-	@Column(name = "nota1")
-	private Double nota1;
 	
-	@Column(name = "nota2")
-	private Double nota2;
+	public Nota(Double nota1, Double nota2) {
+		this.nota1 = nota1;
+		this.nota2 = nota2;
+	}
 }

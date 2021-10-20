@@ -1,7 +1,6 @@
 package br.com.luxfacta.sistema.dto;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import lombok.Data;
 
@@ -12,5 +11,5 @@ public class AlunoNewDTO implements Serializable{
 	private Integer id;
 	private String nome;
 	private String email;
-	private Date dataNasc;
+	private String senha;
 }

@@ -60,14 +60,13 @@ public class AlunoService {
 					objDto.getId(),
 					objDto.getNome(),
 					objDto.getEmail(),
-					objDto.getDataNasc());
+					objDto.getSenha());
 	}
 	
 	public Aluno fromDTO(AlunoDTO objDto) {
 		return new Aluno(objDto.getId(),
 						 objDto.getNome(),
-						 objDto.getEmail(),
-						 objDto.getDataNasc());
+						 objDto.getEmail());
 	}
 	
 	public void updateDataSomeParams(Aluno newObj, Aluno obj) {
@@ -77,8 +76,8 @@ public class AlunoService {
 		if(obj.getEmail() != null) {
 			newObj.setEmail(obj.getEmail());
 		}
-		if(obj.getDataNasc() != null) {
-			newObj.setDataNasc(obj.getDataNasc());
+		if(obj.getSenha() != null) {
+			newObj.setSenha(obj.getSenha());
 		}
 	}
 }
