@@ -4,14 +4,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.luxfacta.sistema.domain.Professor;
+import br.com.luxfacta.sistema.domain.enums.Perfil;
 import br.com.luxfacta.sistema.dto.ProfessorDTO;
 import br.com.luxfacta.sistema.dto.ProfessorNewDTO;
+import br.com.luxfacta.sistema.exception.AuthorizationException;
 import br.com.luxfacta.sistema.exception.DataIntegrityException;
 import br.com.luxfacta.sistema.exception.ObjectNotFoundException;
 import br.com.luxfacta.sistema.repository.ProfessorRepository;
+import br.com.luxfacta.sistema.security.UserSS;
 
 @Service
 public class ProfessorService {
@@ -19,12 +23,21 @@ public class ProfessorService {
 	@Autowired
 	private ProfessorRepository professorRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder pe;
+	
 	public Professor find(Integer id) {
 		Professor professor = professorRepository.findById(id)
 									 .orElseThrow(
 											 () -> new ObjectNotFoundException(
 													 "Objeto não encontrado! Id: " 
 											 + id + ", Tipo: " + Professor.class.getName()));
+		
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.PROF) && !professor.getId().equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		return professor;
 	}
 	
@@ -60,7 +73,7 @@ public class ProfessorService {
 					objDto.getId(),
 					objDto.getNome(),
 					objDto.getEmail(),
-					objDto.getSenha());
+					pe.encode(objDto.getSenha()));
 	}
 	
 //	public Professor fromDTO(ProfessorDTO objDto) {
@@ -73,7 +86,7 @@ public class ProfessorService {
 		return new Professor(objDto.getId(),
 							 objDto.getNome(),
 							 objDto.getEmail(),
-							 objDto.getSenha());
+							 pe.encode(objDto.getSenha()));
 	}
 	
 	public void updateDataSomeParams(Professor newObj, Professor obj) {

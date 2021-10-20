@@ -4,15 +4,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import br.com.luxfacta.sistema.domain.Aluno;
 import br.com.luxfacta.sistema.domain.Disciplina;
+import br.com.luxfacta.sistema.domain.enums.Perfil;
 import br.com.luxfacta.sistema.dto.AlunoDTO;
 import br.com.luxfacta.sistema.dto.AlunoNewDTO;
+import br.com.luxfacta.sistema.exception.AuthorizationException;
 import br.com.luxfacta.sistema.exception.DataIntegrityException;
 import br.com.luxfacta.sistema.exception.ObjectNotFoundException;
 import br.com.luxfacta.sistema.repository.AlunoRepository;
+import br.com.luxfacta.sistema.security.UserSS;
 
 @Service
 public class AlunoService {
@@ -23,7 +28,15 @@ public class AlunoService {
 	@Autowired
 	private DisciplinaService disciplinaService;
 	
+	@Autowired
+	private BCryptPasswordEncoder pe;
+	
 	public Aluno find(Integer id) {
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.PROF) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
 		Aluno aluno = alunoRepository.findById(id)
 									 .orElseThrow(
 											 () -> new ObjectNotFoundException(
@@ -67,7 +80,7 @@ public class AlunoService {
 					objDto.getId(),
 					objDto.getNome(),
 					objDto.getEmail(),
-					objDto.getSenha());
+					pe.encode(objDto.getSenha()));
 	}
 	
 	public Aluno fromDTO(AlunoDTO objDto) {

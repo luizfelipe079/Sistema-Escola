@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,9 +30,11 @@ public class Nota implements Serializable{
 	private Integer id;
 
 	@Column(name = "nota1")
+	@NotEmpty(message = "O campo nota 1 é obrigatório")
 	private Double nota1;
 	
 	@Column(name = "nota2")
+	@NotEmpty(message = "O campo nota 2 é obrigatório")
 	private Double nota2;
 	
 	@ManyToOne

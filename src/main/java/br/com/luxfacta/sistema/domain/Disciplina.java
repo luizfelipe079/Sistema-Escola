@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class Disciplina implements Serializable{
 	private Integer id;
 	
 	@Column(name = "nome")
+	@NotEmpty(message = "O campo nome é obrigatório")
 	private String nome;
 	
 	@ManyToMany(mappedBy = "disciplinas")

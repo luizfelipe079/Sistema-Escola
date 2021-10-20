@@ -43,9 +43,12 @@ public class NotaController {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	@PostMapping
-	public ResponseEntity<Void> Insert(@RequestBody NotaDTO objDto){
+	@PostMapping("adicionar/{id_aluno}/{id_disciplina}")
+	public ResponseEntity<Void> Insert(@RequestBody NotaDTO objDto,
+									   @PathVariable Integer id_aluno,
+									   @PathVariable Integer id_disciplina){
 		Nota nota = notaService.fromDTO(objDto);
+		nota = notaService.addNota(nota, id_aluno, id_disciplina);
 		nota = notaService.save(nota);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
@@ -71,4 +74,5 @@ public class NotaController {
 		notaService.delete(id);;
 		return ResponseEntity.noContent().build();
 	}
+	
 }
