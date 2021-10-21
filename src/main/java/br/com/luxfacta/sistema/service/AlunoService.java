@@ -31,6 +31,9 @@ public class AlunoService {
 	@Autowired
 	private BCryptPasswordEncoder pe;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	public Aluno find(Integer id) {
 		UserSS user = UserService.authenticated();
 		if(user == null || !user.hasRole(Perfil.PROF) && !id.equals(user.getId())) {
@@ -51,6 +54,7 @@ public class AlunoService {
 	
 	public Aluno save(Aluno obj) {
 		obj.setId(null);
+		emailService.sendSignupEmailConfirmationAluno(obj);
 		return alunoRepository.save(obj);
 	}
 	

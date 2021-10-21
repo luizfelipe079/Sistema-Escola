@@ -45,4 +45,38 @@ public abstract class AbstractEmailService implements EmailService{
 		sm.setText("Nova senha: " + newPass);
 		return sm;
 	}
+	
+	public void sendSignupEmailConfirmationAluno(Aluno aluno) {
+		SimpleMailMessage sm = prepareSimpleMailMessageFromAluno(aluno);
+		sendEmail(sm);
+	}
+	
+	protected SimpleMailMessage prepareSimpleMailMessageFromAluno(Aluno aluno){
+
+		SimpleMailMessage sm = new SimpleMailMessage();
+		sm.setTo(aluno.getEmail());
+		sm.setFrom(sender);
+		sm.setSubject("Cadastro Concluído com sucesso!! Obrigado " + aluno.getNome());
+		sm.setSentDate(new Date(System.currentTimeMillis()));
+		sm.setText("Seu cadastro foi realizado!");
+		return sm;
+		
+	}
+	
+	public void sendSignupEmailConfirmationProfessor(Professor professor) {
+		SimpleMailMessage sm = prepareSimpleMailMessageFromProfessor(professor);
+		sendEmail(sm);
+	}
+	
+	protected SimpleMailMessage prepareSimpleMailMessageFromProfessor(Professor professor){
+
+		SimpleMailMessage sm = new SimpleMailMessage();
+		sm.setTo(professor.getEmail());
+		sm.setFrom(sender);
+		sm.setSubject("Cadastro Concluído com sucesso!! Obrigado " + professor.getNome());
+		sm.setSentDate(new Date(System.currentTimeMillis()));
+		sm.setText("Seu cadastro foi realizado!");
+		return sm;
+		
+	}
 }

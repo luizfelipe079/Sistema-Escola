@@ -26,6 +26,9 @@ public class ProfessorService {
 	@Autowired
 	private BCryptPasswordEncoder pe;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	public Professor find(Integer id) {
 		Professor professor = professorRepository.findById(id)
 									 .orElseThrow(
@@ -47,6 +50,7 @@ public class ProfessorService {
 	
 	public Professor save(Professor obj) {
 		obj.setId(null);
+		emailService.sendSignupEmailConfirmationProfessor(obj);
 		return professorRepository.save(obj);
 	}
 	
