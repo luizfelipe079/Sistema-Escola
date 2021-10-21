@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable();
 		http.authorizeRequests()
+		.antMatchers("/auth/forgot/**").permitAll()
 				.antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).hasRole("PROF")
 				.antMatchers(HttpMethod.DELETE, PUBLIC_MATCHERS_DELETE).hasRole("PROF")
 				.antMatchers(HttpMethod.PATCH, PUBLIC_MATCHERS_PATCH).hasRole("PROF")
